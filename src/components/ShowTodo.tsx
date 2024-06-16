@@ -1,14 +1,24 @@
-export default function ShowTodo({
-  title,
-  description,
-}: {
+import Todo from "./Todo";
+
+export interface Todo {
   title: string;
   description: string;
-}) {
+  user_id: number;
+  id: number;
+}
+
+export default function ShowTodo(todos: Todo[]) {
   return (
-    <div className="dark:text-white text-black border border-black flex flex-col gap-3">
-      <p>Title : {title}</p>
-      <p>Description : {description}</p>
+    <div className="flex flex-col gap-3 dark:text-white text-black justify-center content-center items-center">
+      {todos.map((todo) => (
+        <div>
+          <Todo
+            key={todo.id}
+            title={todo.title}
+            description={todo.description}
+          />
+        </div>
+      ))}
     </div>
   );
 }
