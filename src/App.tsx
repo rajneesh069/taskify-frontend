@@ -5,6 +5,7 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import DarkModeToggle from "./components/DarkModeToggle";
 import "./index.css";
+import ShowTodo from "./components/ShowTodos";
 
 const App: React.FC = () => {
   return (
@@ -17,7 +18,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
-            
+            <Route path="/users/:userId" element={<ShowTodo/>} />
           </Routes>
         </main>
       </BrowserRouter>
