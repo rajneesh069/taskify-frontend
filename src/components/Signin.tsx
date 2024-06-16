@@ -1,4 +1,9 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
+import { BASE_URL } from "../config";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { userIdState } from "../store/atoms/userAtom";
+import { useNavigate } from "react-router-dom";
 
 export interface SigninFormData {
   email: string;
@@ -8,9 +13,18 @@ export interface SigninFormData {
 
 export default function Signin() {
   const { register, handleSubmit } = useForm<SigninFormData>();
-
+  const setUserId = useSetRecoilState(userIdState);
+  const userId = useRecoilValue(userIdState);
+  const navigate = useNavigate();
   const onSubmit = async (data: SigninFormData) => {
-    console.log(data);
+    const response = await axios.post(`${BASE_URL}/users/signin`, data, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response.data);
+    setUserId(Number(response.data.user.id));
+    navigate("/users/" + userId);
   };
 
   return (
@@ -24,7 +38,11 @@ export default function Signin() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            autoComplete="off"
+            className="space-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -34,6 +52,7 @@ export default function Signin() {
               </label>
               <div className="mt-2">
                 <input
+                  autoFocus
                   id="email"
                   {...register("email", {
                     required: true,
