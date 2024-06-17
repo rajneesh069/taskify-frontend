@@ -7,6 +7,7 @@ import "./index.css";
 import ShowTodo from "./components/ShowTodos";
 import Appbar from "./components/Appbar";
 import { RecoilRoot } from "recoil";
+import Landing from "./components/Landing";
 
 const App: React.FC = () => {
   return (
@@ -18,7 +19,8 @@ const App: React.FC = () => {
           </header>
           <main>
             <Routes>
-              <Route path="/" element={<Signin />} />
+              <Route path="/" element={<Landing />} />
+              <Route path="/signin" element={<Signin />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/users/:userId" element={<ShowTodo />} />
             </Routes>

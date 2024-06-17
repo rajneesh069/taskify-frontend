@@ -2,8 +2,9 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { BASE_URL } from "../config";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userIdState } from "../store/atoms/userAtom";
+import { emailState, userIdState } from "../store/atoms/userAtom";
 import { useNavigate } from "react-router-dom";
+import { userIdSelector } from "../store/selectors/userSelector";
 
 export interface SigninFormData {
   email: string;
@@ -14,16 +15,24 @@ export interface SigninFormData {
 export default function Signin() {
   const { register, handleSubmit } = useForm<SigninFormData>();
   const setUserId = useSetRecoilState(userIdState);
-  const userId = useRecoilValue(userIdState);
+  const setEmail = useSetRecoilState(emailState);
+  const userId = useRecoilValue(userIdSelector);
   const navigate = useNavigate();
   const onSubmit = async (data: SigninFormData) => {
-    const response = await axios.post(`${BASE_URL}/users/signin`, data, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    setUserId(Number(response.data.user.id));
-    navigate("/users/" + userId);
+    try {
+      const response = await axios.post(`${BASE_URL}/users/signin`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setUserId(Number(response.data.user.id));
+      setEmail(response.data.user.email);
+      navigate("/users/" + userId);
+    } catch (error) {
+      console.error(error);
+      setUserId(-1);
+      setEmail("");
+    }
   };
 
   return (
@@ -71,13 +80,15 @@ export default function Signin() {
                 >
                   Password
                 </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
+                <div>
+                  <p
+                   onClick={()=>{
+                    
+                   }}
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?
-                  </a>
+                  </p>
                 </div>
               </div>
               <div className="mt-2">
@@ -99,6 +110,18 @@ export default function Signin() {
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
+              </button>
+            </div>
+
+            <div className="text-center">
+              Don't have an account?&nbsp;{" "}
+              <button
+              className="underline"
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                Sign up
               </button>
             </div>
           </form>

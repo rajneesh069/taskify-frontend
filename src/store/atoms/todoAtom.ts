@@ -7,14 +7,14 @@ import {
 } from "recoil";
 import { BASE_URL } from "../../config";
 import { Todo } from "../../types";
-import { userIdState } from "./userAtom";
+import { userIdSelector } from "../selectors/userSelector";
 
 export const todoState = atomFamily<Todo, number>({
   key: "todoState",
   default: selectorFamily({
     key: "todos/default",
     get: (todoId: number) => async () => {
-      const userId = useRecoilValue(userIdState);
+      const userId = useRecoilValue(userIdSelector);
       const todos = useRecoilValueLoadable(todosState(userId));
       if (todos.state === "hasValue") {
         return todos.contents.find((todo: Todo) => todo.id === todoId);

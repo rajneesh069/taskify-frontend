@@ -11,13 +11,15 @@ export default function ShowTodos() {
   if (todos.state === "hasValue") {
     return (
       <div className="flex flex-col gap-3 dark:text-white text-black justify-center content-center items-center">
-        {todos.contents.map((todo: TodoType) => (
-          <Todo key={todo.id} todoId={todo.id} />
-        ))}
+        {todos.contents
+          ? todos.contents.map((todo: TodoType) => (
+              <Todo key={todo.id} todoId={todo.id} />
+            ))
+          : "No todos found"}
       </div>
     );
   } else if (todos.state === "loading") {
-    return "loading";
+    return "Loading";
   } else {
     return "Error";
   }
