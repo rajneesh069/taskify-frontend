@@ -82,10 +82,8 @@ export default function Signin() {
                 </label>
                 <div>
                   <p
-                   onClick={()=>{
-                    
-                   }}
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                    onClick={() => {}}
+                    className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer"
                   >
                     Forgot password?
                   </p>
@@ -116,7 +114,7 @@ export default function Signin() {
             <div className="text-center">
               Don't have an account?&nbsp;{" "}
               <button
-              className="underline"
+                className="underline"
                 onClick={() => {
                   navigate("/signup");
                 }}

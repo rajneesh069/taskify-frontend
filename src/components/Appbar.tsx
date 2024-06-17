@@ -9,7 +9,7 @@ export default function Appbar() {
   return (
     <>
       <div className="flex flex-row gap-3 justify-end sticky mb-2 p-1">
-        <div >
+        <div>
           <button
             className=""
             onClick={() => {
