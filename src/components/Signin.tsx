@@ -22,7 +22,6 @@ export default function Signin() {
         "Content-Type": "application/json",
       },
     });
-    console.log(response.data);
     setUserId(Number(response.data.user.id));
     navigate("/users/" + userId);
   };
