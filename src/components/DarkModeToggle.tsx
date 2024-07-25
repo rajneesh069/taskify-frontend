@@ -20,7 +20,7 @@ const DarkModeToggle: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-end">
+    <div>
       <button
         onClick={toggleDarkMode}
         className="group relative flex aspect-square w-[38px] items-center justify-center rounded-lg border border-stroke bg-white text-dark-5 dark:border-dark-3 dark:bg-white/[.02]"

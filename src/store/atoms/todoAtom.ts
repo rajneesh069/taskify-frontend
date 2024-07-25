@@ -18,6 +18,8 @@ export const todoState = atomFamily<Todo, number>({
       const todos = useRecoilValueLoadable(todosState(userId));
       if (todos.state === "hasValue") {
         return todos.contents.find((todo: Todo) => todo.id === todoId);
+      } else if (todos.state === "loading") {
+        return "loading";
       } else {
         return null;
       }

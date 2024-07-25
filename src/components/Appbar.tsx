@@ -8,22 +8,21 @@ export default function Appbar() {
   const email = useRecoilValue(emailSelector);
   return (
     <>
-      <div className="flex flex-row gap-3 justify-end sticky mb-2 p-1">
-        <div>
+      <div className="flex flex-row justify-between sticky border border-black">
+        <div className="mt-1 order-1">
           <button
-            className=""
             onClick={() => {
               navigate("/");
             }}
           >
             Home
           </button>
+          <button className="ml-3">Button</button>
         </div>
-        <div className="">
+        <p>{email}</p>
+        <div className="order-2">
           <DarkModeToggle />
         </div>
-
-        <p>{email}</p>
       </div>
     </>
   );
