@@ -6,7 +6,7 @@ import {
   useRecoilValueLoadable,
 } from "recoil";
 import { BASE_URL } from "../../config";
-import { Todo } from "../../types";
+import { Todo } from "../../lib/types";
 import { userIdSelector } from "../selectors/userSelector";
 
 export const todoState = atomFamily<Todo, number>({

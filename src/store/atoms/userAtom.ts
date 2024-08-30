@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { User } from "../../types";
+import { User } from "../../lib/types";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 

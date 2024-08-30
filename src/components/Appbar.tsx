@@ -1,29 +1,36 @@
 import { useRecoilValue } from "recoil";
-import DarkModeToggle from "./DarkModeToggle";
 import { emailSelector } from "../store/selectors/userSelector";
 import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
 
 export default function Appbar() {
   const navigate = useNavigate();
   const email = useRecoilValue(emailSelector);
   return (
     <>
-      <div className="flex flex-row justify-between sticky border border-black">
-        <div className="mt-1 order-1">
-          <button
+      <nav className="flex flex-row justify-between sticky top-0">
+        <div className="flex flex-col justify-center content-center items-center">
+          <h1 className="text-4xl font-semibold font-cursive">Taskify</h1>
+          <p className=""></p>
+        </div>
+        <div className="flex gap-2">
+          <Button
+            variant={"outline"}
             onClick={() => {
               navigate("/");
             }}
           >
             Home
-          </button>
-          <button className="ml-3">Button</button>
+          </Button>
+          <div>
+            {email ? (
+              <Button variant={"outline"}>Logout</Button>
+            ) : (
+              <Button variant={"outline"}>Signin</Button>
+            )}
+          </div>
         </div>
-        <p>{email}</p>
-        <div className="order-2">
-          <DarkModeToggle />
-        </div>
-      </div>
+      </nav>
     </>
   );
 }

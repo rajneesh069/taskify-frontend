@@ -2,7 +2,7 @@ import { useRecoilValue, useRecoilValueLoadable } from "recoil";
 // import Todo from "./Todo";
 import { todosState } from "../store/atoms/todoAtom";
 import { userIdState } from "../store/atoms/userAtom";
-import { Todo as TodoType } from "../types";
+import { Todo as TodoType } from "../lib/types";
 import Todo from "./Todo";
 
 export default function ShowTodos() {
