@@ -22,8 +22,8 @@ export default function Landing() {
           <Button
             size="lg"
             onClick={() => {
-              // todo add the add todos route, if not signed in take it to sign in
-              navigate("");
+              // todo add the all tasks route, if not signed in take it to sign in
+              navigate("/allTasks");
             }}
           >
             Manage Now

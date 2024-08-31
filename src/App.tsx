@@ -9,6 +9,7 @@ import Appbar from "./components/Appbar";
 import { RecoilRoot } from "recoil";
 import Landing from "./components/Landing";
 import { ThemeProvider } from "./components/theme-provider";
+import ShowTodos from "./components/ShowTodos";
 
 const App: React.FC = () => {
   return (
@@ -16,12 +17,13 @@ const App: React.FC = () => {
       <BrowserRouter>
         <ThemeProvider defaultTheme="dark">
           <RecoilRoot>
-              <Appbar />
+            <Appbar />
             <main>
               <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/allTasks" element={<ShowTodos />} />
                 <Route path="/users/:userId" element={<ShowTodo />} />
               </Routes>
             </main>
