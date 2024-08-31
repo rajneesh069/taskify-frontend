@@ -1,130 +1,90 @@
-import axios from "axios";
-import { useForm } from "react-hook-form";
-import { BASE_URL } from "../config";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { emailState, userIdState } from "../store/atoms/userAtom";
-import { useNavigate } from "react-router-dom";
-import { userIdSelector } from "../store/selectors/userSelector";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+// Import the Link component from react-router-dom
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-export interface SigninFormData {
-  email: string;
+interface FormData {
+  emailOrUsername: string;
   password: string;
-  username?: string;
 }
 
-export default function Signin() {
-  const { register, handleSubmit } = useForm<SigninFormData>();
-  const setUserId = useSetRecoilState(userIdState);
-  const setEmail = useSetRecoilState(emailState);
-  const userId = useRecoilValue(userIdSelector);
-  const navigate = useNavigate();
-  const onSubmit = async (data: SigninFormData) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/users/signin`, data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setUserId(Number(response.data.user.id));
-      setEmail(response.data.user.email);
-      navigate("/users/" + userId);
-    } catch (error) {
-      console.error(error);
-      setUserId(-1);
-      setEmail("");
-    }
+export default function Component() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log(data);
   };
 
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img className="mx-auto h-10 w-auto" src="Logo.png" alt="Logo" />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 dark:text-white">
-            Sign in to your account
-          </h2>
-        </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            autoComplete="off"
-            className="space-y-6"
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  autoFocus
-                  id="email"
-                  {...register("email", {
-                    required: true,
-                  })}
-                  type="email"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+    <div className="dark:bg-background dark:text-card-foreground h-[90vh] flex items-center justify-center">
+      <Card className="w-[90vw] max-w-md p-6">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
+          <CardDescription>
+            Enter your email or username and password to access your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="emailOrUsername">Email or Username</Label>
+              <Input
+                id="emailOrUsername"
+                type="text"
+                {...register("emailOrUsername", {
+                  required: "Email or Username is required",
+                })}
+              />
+              {errors.emailOrUsername && (
+                <p className="text-red-500">{errors.emailOrUsername.message}</p>
+              )}
             </div>
-
-            <div>
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300"
+                <Label htmlFor="password">Password</Label>
+                {/* <Link
+                  to="#"
+                  className="text-white text-sm underline"
                 >
-                  Password
-                </label>
-                <div>
-                  <p
-                    onClick={() => {}}
-                    className="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer"
-                  >
-                    Forgot password?
-                  </p>
-                </div>
+                  Forgot password?
+                </Link> */}
               </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  {...register("password", {
-                    required: true,
-                  })}
-                  type="password"
-                  required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
+              <Input
+                id="password"
+                type="password"
+                {...register("password", { required: "Password is required" })}
+              />
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
             </div>
-
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </button>
-            </div>
-
-            <div className="text-center">
-              Don't have an account?&nbsp;{" "}
-              <button
-                className="underline"
-                onClick={() => {
-                  navigate("/signup");
-                }}
-              >
-                Sign up
-              </button>
-            </div>
+            <Button type="submit" className="w-full">
+              Sign In
+            </Button>
           </form>
-        </div>
-      </div>
-    </>
+          <div className="mt-4 text-center">
+            <p className="text-sm">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-white underline">
+                Sign Up
+              </Link>
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

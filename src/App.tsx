@@ -16,9 +16,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <ThemeProvider defaultTheme="dark">
           <RecoilRoot>
-            <header className="p-4 border border-white">
               <Appbar />
-            </header>
             <main>
               <Routes>
                 <Route path="/" element={<Landing />} />
