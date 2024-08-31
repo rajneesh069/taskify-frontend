@@ -4,7 +4,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import "./index.css";
-import ShowTodo from "./components/ShowTodos";
 import Appbar from "./components/Appbar";
 import { RecoilRoot } from "recoil";
 import Landing from "./components/Landing";
@@ -24,7 +23,6 @@ const App: React.FC = () => {
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/allTasks" element={<ShowTodos />} />
-                <Route path="/users/:userId" element={<ShowTodo />} />
               </Routes>
             </main>
           </RecoilRoot>
