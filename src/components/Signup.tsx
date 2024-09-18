@@ -8,9 +8,12 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import axios from "axios";
+import { SERVER_URL } from "@/lib/config";
+import { useSetRecoilState } from "recoil";
+import { userStateAtom } from "@/store/atoms/user";
 
 interface SignUpFormData {
   username: string;
@@ -21,14 +24,27 @@ interface SignUpFormData {
 }
 
 export default function SignUpComponent() {
+  const setUserId = useSetRecoilState(userStateAtom);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpFormData>();
 
-  const onSubmit: SubmitHandler<SignUpFormData> = (data) => {
+  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
     console.log(data);
+    try {
+      const res = await axios.post(`${SERVER_URL}/users/signup`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setUserId(res.data.user.id);
+      localStorage.setItem("token", res.data.token);
+    } catch (error) {
+      console.error("Error occured while signing up", error);
+      setUserId("");
+    }
   };
 
   return (
@@ -70,11 +86,7 @@ export default function SignUpComponent() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName">Last Name (Optional)</Label>
-              <Input
-                id="lastName"
-                type="text"
-                {...register("lastName")}
-              />
+              <Input id="lastName" type="text" {...register("lastName")} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>

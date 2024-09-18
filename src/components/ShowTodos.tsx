@@ -12,26 +12,7 @@ interface TodoItem {
 }
 
 export default function ShowTodos() {
-  const [todos, setTodos] = useState<TodoItem[]>([
-    {
-      id: 1,
-      title: "Finish the report",
-      description: "Complete the quarterly sales report by Friday",
-      completed: false,
-    },
-    {
-      id: 2,
-      title: "Buy groceries",
-      description: "Pick up milk, eggs, and bread from the store",
-      completed: true,
-    },
-    {
-      id: 3,
-      title: "Call mom",
-      description: "Remember to call mom this weekend",
-      completed: false,
-    },
-  ]);
+  const [todos, setTodos] = useState<TodoItem[]>([]);
 
   const [selectedTodo, setSelectedTodo] = useState<TodoItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);

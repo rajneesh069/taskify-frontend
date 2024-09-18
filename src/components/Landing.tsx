@@ -5,9 +5,12 @@ import { testimonials } from "@/lib/content";
 import TestimonialCard from "./Testimonials";
 import { features } from "@/lib/content";
 import FeatureCard from "./FeatureCard";
+import { userStateAtom } from "@/store/atoms/user";
+import { useRecoilValueLoadable } from "recoil";
 
 export default function Landing() {
   const navigate = useNavigate();
+  const userIdLoadable = useRecoilValueLoadable(userStateAtom);
   return (
     <div className="dark text-white min-h-[100dvh] flex flex-col">
       <main className="flex-1">
@@ -65,10 +68,16 @@ export default function Landing() {
           <div className="flex justify-center gap-4">
             <Button
               onClick={() => {
-                navigate("/signin");
+                userIdLoadable.state === "hasValue" &&
+                userIdLoadable.contents != null
+                  ? navigate("/addTodos")
+                  : navigate("/signin");
               }}
             >
-              Login
+              {userIdLoadable.state === "hasValue" &&
+              userIdLoadable.contents != null
+                ? "Add Todo"
+                : "Login"}
             </Button>
           </div>
         </section>

@@ -9,6 +9,7 @@ import { RecoilRoot } from "recoil";
 import Landing from "./components/Landing";
 import { ThemeProvider } from "./components/theme-provider";
 import ShowTodos from "./components/ShowTodos";
+import AddTodos from "./components/AddTodos";
 
 const App: React.FC = () => {
   return (
@@ -22,7 +23,8 @@ const App: React.FC = () => {
                 <Route path="/" element={<Landing />} />
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/allTasks" element={<ShowTodos />} />
+                <Route path="/todos" element={<ShowTodos />} />
+                <Route path="addTodos" element={<AddTodos />} />
               </Routes>
             </main>
           </RecoilRoot>

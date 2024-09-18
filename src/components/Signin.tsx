@@ -11,21 +11,39 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "axios";
+import { SERVER_URL } from "@/lib/config";
+import { userStateAtom } from "@/store/atoms/user";
+import { useSetRecoilState } from "recoil";
 
 interface FormData {
-  emailOrUsername: string;
+  email: string;
   password: string;
 }
 
-export default function Component() {
+export default function SignIn() {
+  const setUserId = useSetRecoilState(userStateAtom);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(data);
+    try {
+      const res = await axios.post(`${SERVER_URL}/users/login`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("res.data in signin:", res.data);
+      setUserId(res.data.user.id || null);
+      localStorage.setItem("token", res.data.token);
+    } catch (error) {
+      console.error("Error while signin in:", error);
+      setUserId(null);
+    }
   };
 
   return (
@@ -34,22 +52,22 @@ export default function Component() {
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Sign In</CardTitle>
           <CardDescription>
-            Enter your email or username and password to access your account.
+            Enter your email and password to access your account.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="emailOrUsername">Email or Username</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="emailOrUsername"
+                id="email"
                 type="text"
-                {...register("emailOrUsername", {
-                  required: "Email or Username is required",
+                {...register("email", {
+                  required: "Email is required",
                 })}
               />
-              {errors.emailOrUsername && (
-                <p className="text-red-500">{errors.emailOrUsername.message}</p>
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
               )}
             </div>
             <div className="space-y-2">
